@@ -20,12 +20,12 @@ def prepare_voice_file(path: str) -> str:
             f'Unsupported audio format: {format(os.path.splitext(path)[1])}')
 
 
-def transcribe_audio(audio_data, language) -> str:
+def transcribe_audio(audio_data, lang) -> str:
     """
     Transcribes audio data to text using Google's speech recognition API.
     """
     r = sr.Recognizer()
-    text = r.recognize_google(audio_data, language=language)
+    text = r.recognize_google(audio_data, language=lang)
     return text
 
 
@@ -37,19 +37,47 @@ def write_transcription_to_file(text, output_file) -> None:
         f.write(text)
 
 
-def speech_to_text(input_path: str, output_path: str, language: str) -> None:
+def clean_transcription(text, stopwords=None):
     """
-    Transcribes an audio file at the given path to text and writes the transcribed text to the output file.
+    Cleans the transcribed text by removing specified stopwords.
+
+    Parameters:
+        text (str): The transcribed text.
+        stopwords (list of str): A list of stopwords to be removed from the text.
+
+    Returns:
+        str: The cleaned text.
     """
+    if stopwords is None:
+        stopwords = ["the", "a", "an"]
+
+    words = text.split()
+    cleaned_words = [word for word in words if word.lower() not in stopwords]
+    cleaned_text = ' '.join(cleaned_words)
+    return cleaned_text
+
+def speech_to_text(input_path: str, lang: str) -> str:
+    """
+    Transcribes an audio file at the given path to text and returns the transcribed text as a string.
+    """
+    # Prepare the voice file
     wav_file = prepare_voice_file(input_path)
+
+    # Load audio data from the prepared voice file
     with sr.AudioFile(wav_file) as source:
         audio_data = sr.Recognizer().record(source)
-        text = transcribe_audio(audio_data, language)
-        write_transcription_to_file(text, output_path)
-        print('Transcription:')
-        print(text)
+
+    # Transcribe the audio data
+    text = transcribe_audio(audio_data, lang)
+
+    # Clean the transcribed text
+    cleaned_text = clean_transcription(text)
+
+    # Return the cleaned transcribed text
+    return cleaned_text
 
 
+"""
 if __name__ == '__main__':
     print('Please enter the path to an audio file (WAV, MP3, M4A, OGG, or FLAC):')
     input_path = input().strip()
@@ -62,7 +90,8 @@ if __name__ == '__main__':
         print('Please enter the language code (e.g. en-US):')
         language = input().strip()
         try:
-            speech_to_text(input_path, output_path, language)
+            speech_to_text(input_path, lang)
         except Exception as e:
             print('Error:', e)
             exit(1)
+"""
