@@ -152,7 +152,7 @@ def generate_emotional_vector(model_name, prompt):
     return words_vector
 
 model_name = "models/text-bison-001"
-prompt = "create a python vector of 11 random, single words (no compound words). Don't add anything to the code (no print function) and don't repeat the words in the vector."
+prompt = "create a python vector of 21 single everyday words that have deep psychological significance from a psychological perspective. These words should be common and familiar, but should also evoke themes related to the subconscious, dreams, inner conflicts, archetypes, and hidden desires. Each word should be easily understandable and suitable for word association tasks used to explore the subconscious mind. Don't add anything to the code (no print function) and don't repeat the words in the vector."
 words_vector = generate_emotional_vector(model_name, prompt)
 
 if st.button('Start Processing'):
@@ -190,6 +190,7 @@ if st.button('Start Processing'):
     st.write("### Combined Table")
     st.table(df)
 
+    df.replace('None', None, inplace=True)
     df_cleaned = df.dropna(subset=['Distance', 'Latency'])
     st.write("### Scatter Plot of Latency vs Distance")
     fig, ax = plt.subplots()
