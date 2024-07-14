@@ -1,14 +1,10 @@
-import gensim.downloader as api
 import numpy as np
 
-def calculate_word_distance(word1, word2):
+def calculate_word_distance(word1, word2, model):
     """
     Calculates the Euclidean distance between two words in a pre-trained Word2Vec model.
     """
     try:
-        # Load the pre-trained Word2Vec model
-        model = api.load('word2vec-google-news-300')
-
         # Get word vectors
         vector1 = model[word1]
         vector2 = model[word2]
