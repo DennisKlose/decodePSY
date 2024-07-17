@@ -10,8 +10,14 @@ import time
 import pandas as pd
 import google.generativeai as palm
 import gensim.downloader as api
+import os
+from dotenv import load_dotenv  # Import load_dotenv to load environment variables
 
-palm.configure(api_key="AIzaSyAAVktcnKOUwemyDNDMR7L24MvSLGrKjyE")
+# Load environment variables from .env file
+load_dotenv()
+
+# Configure the API key from environment variable
+palm.configure(api_key=os.getenv("PALM_API_KEY"))
 
 @st.cache_resource()
 def load_word2vec_model():
