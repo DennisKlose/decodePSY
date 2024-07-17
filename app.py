@@ -12,7 +12,7 @@ import google.generativeai as palm
 import gensim.downloader as api
 import os
 from dotenv import load_dotenv  # Import load_dotenv to load environment variables
-
+#.
 # Load environment variables from .env file
 load_dotenv()
 
