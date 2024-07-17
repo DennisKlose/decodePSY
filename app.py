@@ -15,7 +15,7 @@ from dotenv import load_dotenv  # Import load_dotenv to load environment variabl
 
 # Load environment variables from .env file
 load_dotenv()
-
+#new
 # Configure the API key from environment variable
 palm.configure(api_key=os.getenv("PALM_API_KEY"))
 
